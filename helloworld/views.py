@@ -34,3 +34,6 @@ def formview(request):
           'error': error,
      }
      return render(request, 'form.html', context)
+
+def storeview(request):
+     return render(request, 'store.html')
