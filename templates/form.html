@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <title>Form</title>
+        <link rel="stylesheet" type="text/css" href="/static/style.css">
+    </head>
+    {% include 'menu.html' %}
+    <body>
+        <h1>Sum Form</h1>
+
+        {% if error %}
+            <div style="background-color: #f8d7da; padding: 15px; border-radius: 5px; margin: 20px 0; color: #721c24;">
+                <strong>Error:</strong> {{ error }}
+            </div>
+        {% endif %}
+
+        {% if result is not None %}
+            <div style="background-color: #d4edda; padding: 15px; border-radius: 5px; margin: 20px 0; color: green;">
+                <strong>Success:</strong> The sum is {{ result }}
+            </div>
+        {% endif %}
+        
+        <form method="POST" style="max-width: 600px; margin: 20px 0;">
+            {% csrf_token %}
+            <div style="margin-bottom: 15px;">
+                <label for="first_value">First Value:</label>
+                <input type="number" step="any" id="first_value" name="first_value" class="form-control" placeholder="Enter first number" required>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label for="second_value">Second Value:</label>
+                <input type="number" step="any" id="second_value" name="second_value" class="form-control" placeholder="Enter second number" required>
+            </div>
+            
+            <button type="submit" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Calculate Sum</button>
+        </form>
+
+    </body>
+</html>
