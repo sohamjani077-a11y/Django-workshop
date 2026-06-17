@@ -4,41 +4,6 @@
     {% include 'menu.html' %}
     <body>
         <h1>Contact Us</h1>
-        
-        {% if success %}
-            <div style="background-color: #d4edda; padding: 15px; border-radius: 5px; margin: 20px 0; color: green;">
-                <strong>Success!</strong> Your message has been submitted.
-                <p><strong>Name:</strong> {{ submitted_data.name }}</p>
-                <p><strong>Email:</strong> {{ submitted_data.email }}</p>
-                <p><strong>Subject:</strong> {{ submitted_data.subject }}</p>
-                <p><strong>Message:</strong> {{ submitted_data.message }}</p>
-            </div>
-        {% endif %}
-        
-        <form method="POST" style="max-width: 600px; margin: 20px 0;">
-            {% csrf_token %}
-            <div style="margin-bottom: 15px;">
-                <label for="{{ form.name.id_for_label }}">Name:</label>
-                {{ form.name }}
-            </div>
-            
-            <div style="margin-bottom: 15px;">
-                <label for="{{ form.email.id_for_label }}">Email:</label>
-                {{ form.email }}
-            </div>
-            
-            <div style="margin-bottom: 15px;">
-                <label for="{{ form.subject.id_for_label }}">Subject:</label>
-                {{ form.subject }}
-            </div>
-            
-            <div style="margin-bottom: 15px;">
-                <label for="{{ form.message.id_for_label }}">Message:</label>
-                {{ form.message }}
-            </div>
-            
-            <button type="submit" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Submit</button>
-        </form>
 
     </body>
 </html>
