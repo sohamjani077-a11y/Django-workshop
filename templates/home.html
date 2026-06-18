@@ -1,12 +1,15 @@
-{% load static %}
 <html>
     <head>
-        <link rel= "stylesheet" type="text/css" href="{% static 'style.css' %}">
-    
     </head>
     {% include 'menu.html' %}
     <body>
         <h1>Welcome to the Home Page</h1>
+        {% if username %}
+            <p>User name: {{ username }}</p>
+            <p><a href="/logout/">Logout</a></p>
+        {% else %}
+            <p>No user name found. Please go to the login page.</p>
+        {% endif %}
         
     </body>
 </html>
