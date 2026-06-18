@@ -1,5 +1,8 @@
+from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+
+from .forms import ContactForm
 
 
 def require_login(request):
@@ -27,7 +30,37 @@ def contactusview(request):
      if login_redirect:
           return login_redirect
 
-     return render(request, 'contact.html')
+     form = ContactForm()
+     message_sent = False
+     error = None
+
+     if request.method == 'POST':
+          form = ContactForm(request.POST)
+          if form.is_valid():
+               name = form.cleaned_data['name']
+               email = form.cleaned_data['email']
+               subject = form.cleaned_data['subject']
+               message = form.cleaned_data['message']
+
+               full_message = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+
+               send_mail(
+                    subject=subject,
+                    message=full_message,
+                    from_email=None,
+                    recipient_list=['admin@example.com'],
+                    fail_silently=False,
+               )
+               message_sent = True
+               form = ContactForm()
+          else:
+               error = 'Please correct the errors below.'
+
+     return render(request, 'contact.html', {
+          'form': form,
+          'message_sent': message_sent,
+          'error': error,
+     })
 
 def formview(request):
      login_redirect = require_login(request)

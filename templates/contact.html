@@ -5,5 +5,38 @@
     <body>
         <h1>Contact Us</h1>
 
+        {% if message_sent %}
+            <p>Email sent successfully.</p>
+        {% endif %}
+
+        {% if error %}
+            <p>{{ error }}</p>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <p>
+                <label for="id_name">Name:</label>
+                {{ form.name }}
+                {{ form.name.errors }}
+            </p>
+            <p>
+                <label for="id_email">Email:</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </p>
+            <p>
+                <label for="id_subject">Subject:</label>
+                {{ form.subject }}
+                {{ form.subject.errors }}
+            </p>
+            <p>
+                <label for="id_message">Message:</label>
+                {{ form.message }}
+                {{ form.message.errors }}
+            </p>
+            <button type="submit">Send Email</button>
+        </form>
+
     </body>
 </html>
