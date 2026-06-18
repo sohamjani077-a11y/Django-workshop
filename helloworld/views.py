@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 
 def homepageview(request):
@@ -37,3 +38,23 @@ def formview(request):
 
 def storeview(request):
      return render(request, 'store.html')
+def savesessiondata(request):
+     request.session['username'] = 'soham'
+     return HttpResponse('session data saved')
+def getsessiondata(request):
+     if request.session.get('username'):
+          username = request.session['username']
+          return HttpResponse(username)
+     else:          
+          return HttpResponse('no session data found')
+
+def deletesessiondata(request):
+     request.session.pop('username', None)
+     return HttpResponse('session data deleted')
+def getsessiondata2(request):
+     username = request.session.get('username', 'no session data found')
+     return HttpResponse(username)
+
+     
+          
+     

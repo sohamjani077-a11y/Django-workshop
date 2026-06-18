@@ -7,4 +7,9 @@ urlpatterns = [
     path('contact/', views.contactusview),
     path('form/', views.formview),
     path('store/', views.storeview),
+    path('savesessiondata/', views.savesessiondata),
+    path('getsessiondata/', views.getsessiondata),
+    path('deletesessiondata/', views.deletesessiondata),
+    path('getsessiondata2/', views.getsessiondata2),
+    
 ]
