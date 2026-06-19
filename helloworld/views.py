@@ -1,8 +1,9 @@
 from django.core.mail import send_mail
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import ContactForm
+from .models import Student
 
 
 def require_login(request):
@@ -113,6 +114,110 @@ def storeview(request):
           return login_redirect
 
      return render(request, 'store.html')
+
+
+def addstudentform(request):
+     login_redirect = require_login(request)
+     if login_redirect:
+          return login_redirect
+
+     return render(request, 'add-student.html')
+
+
+def addstudentformprocess(request):
+     login_redirect = require_login(request)
+     if login_redirect:
+          return login_redirect
+
+     if request.method != 'POST':
+          return redirect('/add-student/')
+
+     txt1 = request.POST.get('txt1', '').strip()
+     txt2 = request.POST.get('txt2', '').strip()
+     txt3 = request.POST.get('txt3', '').strip()
+     txt4 = request.POST.get('txt4', '').strip()
+
+     Student.objects.create(name=txt1, mobile=txt2, email=txt3, address=txt4)
+     return redirect('/students/')
+
+
+def student_list(request):
+     login_redirect = require_login(request)
+     if login_redirect:
+          return login_redirect
+
+     students = Student.objects.all().order_by('id')
+     return render(request, 'students-list.html', {'students': students})
+
+
+def student_create(request):
+     login_redirect = require_login(request)
+     if login_redirect:
+          return login_redirect
+
+     if request.method == 'POST':
+          name = request.POST.get('name', '').strip()
+          mobile = request.POST.get('mobile', '').strip()
+          email = request.POST.get('email', '').strip()
+          address = request.POST.get('address', '').strip()
+
+          if name and mobile and email and address:
+               Student.objects.create(name=name, mobile=mobile, email=email, address=address)
+               return redirect('/students/')
+
+          return render(request, 'student-form.html', {
+               'title': 'Add Student',
+               'student': {'name': name, 'mobile': mobile, 'email': email, 'address': address},
+               'error': 'All fields are required.',
+          })
+
+     return render(request, 'student-form.html', {'title': 'Add Student'})
+
+
+def student_update(request, student_id):
+     login_redirect = require_login(request)
+     if login_redirect:
+          return login_redirect
+
+     student = get_object_or_404(Student, id=student_id)
+
+     if request.method == 'POST':
+          name = request.POST.get('name', '').strip()
+          mobile = request.POST.get('mobile', '').strip()
+          email = request.POST.get('email', '').strip()
+          address = request.POST.get('address', '').strip()
+
+          if name and mobile and email and address:
+               student.name = name
+               student.mobile = mobile
+               student.email = email
+               student.address = address
+               student.save()
+               return redirect('/students/')
+
+          return render(request, 'student-form.html', {
+               'title': 'Edit Student',
+               'student': student,
+               'error': 'All fields are required.',
+          })
+
+     return render(request, 'student-form.html', {'title': 'Edit Student', 'student': student})
+
+
+def student_delete(request, student_id):
+     login_redirect = require_login(request)
+     if login_redirect:
+          return login_redirect
+
+     student = get_object_or_404(Student, id=student_id)
+
+     if request.method == 'POST':
+          student.delete()
+          return redirect('/students/')
+
+     return render(request, 'student-delete.html', {'student': student})
+
+
 def savesessiondata(request):
      login_redirect = require_login(request)
      if login_redirect:

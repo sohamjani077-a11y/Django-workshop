@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+</head>
+<body>
+    <h1>Add Student</h1>
+    <form method="post" action="/add-student-process/">
+        {% csrf_token %}
+        <label for="txt1">Name</label><br>
+        <input id="txt1" name="txt1" type="text" required><br><br>
+
+        <label for="txt2">Mobile</label><br>
+        <input id="txt2" name="txt2" type="text" required><br><br>
+
+        <label for="txt3">Email</label><br>
+        <input id="txt3" name="txt3" type="email" required><br><br>
+
+        <label for="txt4">Address</label><br>
+        <input id="txt4" name="txt4" type="text" required><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
